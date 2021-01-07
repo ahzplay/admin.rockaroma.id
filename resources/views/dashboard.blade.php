@@ -374,7 +374,7 @@
         }*/
 
         function updateStatus(id, status, order) {
-            if(order == '0') {
+            if(order == '0' && status == '1') {
                 $.alert({
                     title: 'Something wrong !',
                     content: 'Sliders in the first order cannot be disabled'
