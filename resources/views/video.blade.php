@@ -7,7 +7,6 @@
 @endsection
 
 @section('content')
-    {{Session::get('email')}}
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">

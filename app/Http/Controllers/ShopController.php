@@ -11,7 +11,13 @@ use Cloudder;
 
 class ShopController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
+        $request->session()->put('menu-active-dashboard', '');
+        $request->session()->put('menu-active-article', '');
+        $request->session()->put('menu-active-video', '');
+        $request->session()->put('menu-active-shop', 'active');
+        $request->session()->put('menu-active-band', '');
+
         $categories = $this->fetchCategoriesForDropdown();
         $data = array(
             'categories' => $categories

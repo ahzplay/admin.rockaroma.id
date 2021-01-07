@@ -9,6 +9,12 @@ use Cloudder;
 class VideoController extends Controller
 {
     public function index(Request $request){
+        $request->session()->put('menu-active-dashboard', '');
+        $request->session()->put('menu-active-article', '');
+        $request->session()->put('menu-active-video', 'active');
+        $request->session()->put('menu-active-shop', '');
+        $request->session()->put('menu-active-band', '');
+
         $videos = $this->fetchVideos($request->page, $request->startDate, $request->endDate);
         $data = array(
             'raw' => $videos['raw'],

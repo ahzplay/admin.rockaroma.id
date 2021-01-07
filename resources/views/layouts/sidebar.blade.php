@@ -14,7 +14,7 @@
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
         <li class="nav-item">
-            <a href="{{url('dashboard-page')}}" class="nav-link active">
+            <a href="{{url('dashboard-page')}}" class="nav-link {{Session::get('menu-active-dashboard')}}">
                 <i class="nav-icon fas fa-images"></i>
                 <p>
                     Dashboard
@@ -22,7 +22,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{url('article-page')}}" class="nav-link {{Session::get('menu-active-article')}}">
                 <i class="nav-icon fas fa-newspaper"></i>
                 <p>
                     Articles
@@ -30,7 +30,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{url('video-page').'/1/0/0'}}" class="nav-link">
+            <a href="{{url('video-page').'/1/0/0'}}" class="nav-link {{Session::get('menu-active-video')}}">
                 <i class="nav-icon fas fa-video"></i>
                 <p>
                     Video
@@ -38,7 +38,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{url('shop-page')}}" class="nav-link">
+            <a href="{{url('shop-page')}}" class="nav-link {{Session::get('menu-active-shop')}}">
                 <i class="nav-icon fas fa-shopping-bag"></i>
                 <p>
                     Shop
@@ -46,7 +46,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{url('band-page')}}" class="nav-link">
+            <a href="{{url('band-page')}}" class="nav-link {{Session::get('menu-active-band')}}">
                 <i class="nav-icon fas fa-guitar"></i>
                 <p>
                     Band Register

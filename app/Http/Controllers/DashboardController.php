@@ -8,7 +8,13 @@ use Cloudder;
 
 class DashboardController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
+        $request->session()->put('menu-active-dashboard', 'active');
+        $request->session()->put('menu-active-article', '');
+        $request->session()->put('menu-active-video', '');
+        $request->session()->put('menu-active-shop', '');
+        $request->session()->put('menu-active-band', '');
+
         $data = array (
             'raw' => $this->fetchSliders(),
         );

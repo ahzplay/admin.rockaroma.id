@@ -7,12 +7,11 @@
 @endsection
 
 @section('content')
-
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Image Slider</h1>
+                    <h1 class="m-0 text-dark">Article</h1>
                 </div>
             </div>
         </div>
@@ -25,36 +24,49 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
+                            <div class="float-left d-none d-sm-inline">
+                                <div class="input-group">
+                                    <input type="text" class="form-control startdate" placeholder="Start Date"  />
+                                    <div class="input-group-append" style="padding-right: 10px;">
+                                        <span class="input-group-text" id="basic-addon2"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control enddate" placeholder="End Date" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="basic-addon2"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="float-right d-none d-sm-inline">
+                                <button type="button" class="btn btn-warning" onclick="window.location = '{{url('article-add-page')}}';"><i class="fa fa-plus-square"></i> New Article </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
                             <div class="card-body table-responsive p-0">
-                                <table id="slider-table" class="table table-striped">
+                                <table class="table table-hover text-nowrap">
                                     <thead>
                                     <tr>
                                         <th> # </th>
-                                        <th> Title </th>
-                                        <th> Image </th>
-                                        <th> Status </th>
+                                        <th> Video Title </th>
+                                        <th> Date </th>
                                         <th> Action  </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($raw as $key=>$val)
-                                        <tr>
-                                            <td>{{$key+1}}</td>
-                                            <td>{{$val->title}}</td>
-                                            <td><a href="#" onclick="showImage('{{$val->secure_url}}')">Show Image</a></td>
-                                            {{--<td>{{$val->is_active=1?'Active':'Not Active'}}</td>--}}
-                                            <td>
-                                                @if($val->is_active==1)
-                                                    <button type="button" id="status-btn" onclick="updateStatus('{{$val->id}}','{{$val->is_active}}','{{$val->order}}')" class="btn btn-success btn-xs">Active</button>
-                                                @else
-                                                    <button type="button" id="status-btn" onclick="updateStatus('{{$val->id}}','{{$val->is_active}}','{{$val->order}}')" class="btn btn-default btn-xs">Not Active</button>
-                                                @endif
-                                            </td>
-                                            <td><a href="#" onclick="edit('{{$val->id}}')" style="color: blue;">Edit</a> {{--<span style="padding-right: 15px;"></span> <a href="#" onclick="destroy('{{$val->id}}','{{$val->public_id}}')" style="color: red;">Delete</a>--}}</td>
-                                        </tr>
-                                    @endforeach
+
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="float-right d-none d-sm-inline">
+                                {{--{{Request::segment(2)}}--}}
                             </div>
                         </div>
                     </div>
@@ -63,116 +75,32 @@
         </div>
     </section>
 
-    <div id="image-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div id="image-modal-content" class="modal-content" style="display: none; background-color: #212020;">
-                <div class="modal-body">asdfasdfasdf</div>
-                {{--<div class="image-wrapper text-center">
-                    adsfadsfasdfasdfadsf
-                </div>--}}
-            </div>
-        </div>
-    </div>
-
-
-    <div id="img-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <img id="img-wrapper" width="765">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="add-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <h4>Image Slider</h4>
-                    <br>
-                    <div id="form-alert" class="row" style="display: none;">
-                        <div class="col-md-12">
-                            <div class="alert alert-danger alert-dismissible">
-                                <strong>Something wrong !</strong>
-                                <p>
-                                    Please complete slider's content.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div style="border-width: 1px; border-color: #F4F6F9; background-color: #F4F6F9; width: 100%; height: 210px;">
-                                <img id="image-preview" src="" width="100%" style="max-height: 210px; min-height: 210px;">
-                            </div>
-                            <div style="padding-top: 10px;">
-                                <label class="file-upload btn btn-primary btn-sm btn-block" style="color: black; background-color: #FFC108; border-color: #FFC108;">
-                                    Upload Thumbnail
-                                    <input type="file" id="image-file" name="imageFile" accept="image/gif,image/jpeg, image/png" />
-                                </label>
-                            </div>
-                            <div style="padding-top: 10px;">
-                                <label style="font-size: 12px;">
-                                    Upload your best image slider. For best result please use photo size 1280x720 pixel with jpg, jpeg or png format
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-6" style="padding-left: 25px;">
-                            <form id="formData" method="post" enctype="multipart/form-data">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Title</label>
-                                    <input type="text" class="form-control" name="sliderTitle" id="slider-title">
-                                    {{--<input type="file" id="image-file" name="imageFile" accept="image/gif,image/jpeg, image/png" />--}}
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Image URL</label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon3"><i class="fa fa-link"></i> </span>
-                                        </div>
-                                        <input type="text" class="form-control" id="secure-url" name="secureUrl" aria-describedby="basic-addon3" disabled>
-                                    </div>
-                                </div>
-                                {{--<div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="videoPublish" value="1" id="videoPublish">
-                                    <label class="form-check-label" for="exampleCheck1">Publish Video</label>
-                                </div>--}}
-                                {{--<button type="submit" onclick="save()" class="btn btn-warning"> Save </button>--}}
-                            </form>
-                        </div>
-                    </div>
-                    <div class="row" style="padding-top: 25px;">
-                        <div class="col-md-12">
-                            <div class="float-right d-none d-sm-inline">
-                                <button type="button" onclick="update()" class="btn btn-warning"> Update </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 @endsection
 
 @section('js-add-on')
     <script src="{{asset('js/file-upload.js')}}"></script>
-    <script src="{{asset('js/row-sorter.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://www.jqueryscript.net/demo/Fullscreen-Loading-Modal-Indicator-Plugin-For-jQuery-loadingModal/js/jquery.loadingModal.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             setDateRangePicker(".startdate", ".enddate")
 
+            $('#edit-href').on('click', '.modal-toggle', function (e){
+
+            });
+
+            $('#edit-href').click(function(){
+                console.log('afadsfasdf asdfas');
+                $('#add-modal').modal('show');
+            });
+
             $("#add-modal").on('hidden.bs.modal', function (e) {
                 $('#form-alert').hide();
                 $('#save-button').show();
                 $('#update-button').hide();
-                $('#image-preview').attr('src', '');
-                $('#slider-title').val('');
-                $('#secure-url').val('');
+                $('#profile-img').attr('src', '');
+                $('#video-title').val('');
+                $('#youtube-embed').val('');
                 $('#publish-checkbox').prop('checked', false);
                 $('#videoId').remove();
                 $('#youtube-modal-content').hide();
@@ -188,17 +116,8 @@
                 } else {
                     location.href = '{{url('video-page/1')}}/'+$('.startdate').val()+'/'+$('.enddate').val();
                 }
-            });
 
-            $("#slider-table").rowSorter({
-                onDrop: function(tbody, row, index, oldIndex) {
-                    console.log('tBody = '+tbody.tagName);
-                    console.log(row);
-                    console.log('INDEX = '+index);
-                    console.log('OLD INDEX = '+oldIndex);
-                }
             });
-
         });
 
         function setDateRangePicker(input1, input2){
@@ -220,8 +139,8 @@
                 var reader = new FileReader();
 
                 reader.onload = function(e) {
-                    $('#image-preview').attr('src', e.target.result);
-                    $('#image-preview').attr('size', e.target.result);
+                    $('#profile-img').attr('src', e.target.result);
+                    $('#profile-img').attr('size', e.target.result);
                 }
                 var base64 = reader.readAsDataURL(input_files[0]);
                 console.log(base64); // convert to base64 string
@@ -229,7 +148,7 @@
         }
 
         $(".file-upload").change(function() {
-            readURL($('#image-file').prop('files'));
+            readURL($('#video-thumb-file').prop('files'));
         });
 
         $.ajaxSetup({
@@ -238,9 +157,17 @@
             }
         });
 
-        function showImage(imgLink) {
-            $('#img-modal').modal('show');
-            $("#img-wrapper").attr('src',imgLink);
+        function videoPreview() {
+            if($('#youtube-embed').val() == '') {
+                $.alert({
+                    title: 'Something wrong !',
+                    content: 'Please fill valid youtube embed code'
+                });
+            } else {
+                $('#youtube-modal-content').show();
+                $('#form-modal-content').hide();
+                $(".video-wrapper").html($('#youtube-embed').val()+'<button type="button" class="btn btn-warning btn-lg btn-block" onclick="backToForm();" style="border-radius: 0 !important;">Back</button>');
+            }
         }
 
         function backToForm() {
@@ -250,9 +177,9 @@
 
         function save() {
             if(
-                $('#image-file').get(0).files.length <= 0 ||
-                $('#slider-title').val() == '' ||
-                $('#secure-url').val() == ''
+                $('#video-thumb-file').get(0).files.length <= 0 ||
+                $('#video-title').val() == '' ||
+                $('#youtube-embed').val() == ''
             ) {
                 $('#form-alert').show();
             } else {
@@ -260,7 +187,7 @@
                 $('#save-button').show();
                 $.confirm({
                     title: 'Are you sure ?',
-                    content: 'Slider will be uploaded to website',
+                    content: 'Video will be uploaded to website',
                     buttons: {
                         confirm: function () {
                             $('body').loadingModal({
@@ -272,12 +199,12 @@
                                 animation: 'wanderingCubes'
                             });
                             $('#form-alert').hide();
-                            console.log($('#image-file').prop('files')[0]);
+                            console.log($('#video-thumb-file').prop('files')[0]);
                             var formData = new FormData($('form')[0]);
-                            formData.append('imageFile', $('#image-file').prop('files')[0]);
+                            formData.append('videoThumb', $('#video-thumb-file').prop('files')[0]);
                             $.ajax({
                                 type: "POST",
-                                url: "{{url('api/dashboard-slider-update')}}",
+                                url: "{{url('api/video-save')}}",
                                 contentType: false,
                                 cache: false,
                                 processData:false,
@@ -287,7 +214,7 @@
                                     $('body').loadingModal('destroy') ;
                                     if(response.status == 'success') {
                                         $('#formData').trigger("reset");
-                                        $('#image-preview').attr('src', '');
+                                        $('#profile-img').attr('src', '');
                                         $.confirm({
                                             title: 'Succeded !!',
                                             content: response.message,
@@ -320,7 +247,7 @@
             }
         }
 
-        /*function destroy(id, publicId) {
+        function destroy(id, publicId) {
             $.confirm({
                 title: 'Are you sure ?',
                 content: 'Video will be deleted permanently',
@@ -336,7 +263,7 @@
                         });
                         $.ajax({
                             type: "POST",
-                            url: "",
+                            url: "{{url('api/video-destroy')}}",
                             data: 'id='+id+'&publicId='+publicId,
                             timeout: 300000,
                             success: function(response){
@@ -371,50 +298,6 @@
                     cancel: function () {},
                 }
             });
-        }*/
-
-        function updateStatus(id, status, order) {
-            if(order == '0') {
-                $.alert({
-                    title: 'Something wrong !',
-                    content: 'Sliders in the first order cannot be disabled'
-                });
-
-                return;
-            }
-
-            var postStatus;
-            if(status == '1')
-                postStatus = 0;
-            else
-                postStatus = 1;
-
-            console.log(postStatus);
-            $.ajax({
-                type: "POST",
-                url: "{{url('api/dashboard-slider-update-status')}}",
-                timeout: 300000,
-                data: 'id='+id+'&status='+postStatus,
-                success: function(response) {
-                    $('body').loadingModal('destroy');
-                    location.reload();
-                    /*if(postStatus == 1) {
-                        $('#status-btn').attr('class','btn btn-success btn-xs')
-                        location.reload();
-                    }
-                    else {
-                        $('#status-btn').attr('class','btn btn-default btn-xs')
-                        location.reload();
-                    }*/
-                },
-                error: function(){
-                    $('body').loadingModal('destroy');
-                    $.alert({
-                        title: 'Something wrong !',
-                        content: 'Data failed, please make sure your internet connection is stable'
-                    });
-                },
-            });
         }
 
         function edit(id) {
@@ -437,16 +320,16 @@
             $('#update-button').show();
             $.ajax({
                 type: "POST",
-                url: "{{url('api/dashboard-slider-get')}}",
+                url: "{{url('api/video-get')}}",
                 timeout: 300000,
                 data: 'id='+id,
                 success: function(response) {
                     $('body').loadingModal('destroy');
                     console.log(response);
                     $('#add-modal').modal('show');
-                    $('#image-preview').attr('src', response[0].secure_url);
-                    $('#slider-title').val(response[0].title);
-                    $('#secure-url').val(response[0].secure_url);
+                    $('#profile-img').attr('src', response[0].secure_url);
+                    $('#video-title').val(response[0].title);
+                    $('#youtube-embed').val(response[0].youtube_embeded);
                     $('#publish-checkbox').prop('checked', response[0].is_active);
                     $('#form-alert').hide();
                 },
@@ -478,10 +361,10 @@
                         $('#form-alert').hide();
                         var formData = new FormData($('form')[0]);
                         //formData.append('id', id);
-                        formData.append('imageFile', $('#image-file').prop('files')[0]);
+                        formData.append('videoThumb', $('#video-thumb-file').prop('files')[0]);
                         $.ajax({
                             type: "POST",
-                            url: "{{url('api/dashboard-slider-update')}}",
+                            url: "{{url('api/video-update')}}",
                             contentType: false,
                             cache: false,
                             processData:false,
@@ -492,7 +375,7 @@
                                 $('body').loadingModal('destroy') ;
                                 if(response.status == 'success') {
                                     $('#formData').trigger("reset");
-                                    $('#image-preview').attr('src', '');
+                                    $('#profile-img').attr('src', '');
                                     $.confirm({
                                         title: 'Succeded !!',
                                         content: response.message,
