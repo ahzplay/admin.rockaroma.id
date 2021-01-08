@@ -42,7 +42,7 @@
                                         <tr>
                                             <td>{{$key+1}}</td>
                                             <td>{{$val->title}}</td>
-                                            <td> - </td>
+                                            <td><a href="{{$val->link}}" target="_blank">Open Link</a></td>
                                             <td><a href="#" onclick="showImage('{{$val->secure_url}}')">Show Image</a></td>
                                             {{--<td>{{$val->is_active=1?'Active':'Not Active'}}</td>--}}
                                             <td>
@@ -134,7 +134,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon3"><i class="fa fa-link"></i> </span>
                                         </div>
-                                        <input type="text" class="form-control" id="link" name="link" aria-describedby="basic-addon3" disabled>
+                                        <input type="text" class="form-control" id="link" name="link" aria-describedby="basic-addon3">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -458,6 +458,7 @@
                     $('#image-preview').attr('src', response[0].secure_url);
                     $('#slider-title').val(response[0].title);
                     $('#secure-url').val(response[0].secure_url);
+                    $('#link').val(response[0].link);
                     $('#publish-checkbox').prop('checked', response[0].is_active);
                     $('#form-alert').hide();
                 },

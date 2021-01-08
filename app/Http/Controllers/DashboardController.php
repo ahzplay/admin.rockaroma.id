@@ -52,6 +52,7 @@ class DashboardController extends Controller
         //echo json_encode($request->all()); die();
         $slider = DashboardSlider::find($request->id);
         $slider->title = $request->sliderTitle;
+        $slider->link = $request->link;
         if($request->file('imageFile')) {
             Cloudder::destroy($slider->public_id, $options=array());
             Cloudder::upload($request->file('imageFile'), null ,
