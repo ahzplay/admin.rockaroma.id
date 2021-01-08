@@ -94,7 +94,8 @@
                     {"data":"createdAt"},
                     {
                         "render": function (data, type, row) {
-                            return "<a href='#' onclick='destroy("+row.id+")'>Delete</a>";
+                            //return "<a href='#' onclick='destroy("+row.id+")'>Delete</a>";
+                            return "";
                         },
                     }
                 ],

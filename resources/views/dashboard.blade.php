@@ -129,10 +129,19 @@
                                     {{--<input type="file" id="image-file" name="imageFile" accept="image/gif,image/jpeg, image/png" />--}}
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Image URL</label>
+                                    <label for="exampleInputEmail1">Link</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon3"><i class="fa fa-link"></i> </span>
+                                        </div>
+                                        <input type="text" class="form-control" id="link" name="link" aria-describedby="basic-addon3" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Image URL</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon3"><i class="fa fa-image"></i> </span>
                                         </div>
                                         <input type="text" class="form-control" id="secure-url" name="secureUrl" aria-describedby="basic-addon3" disabled>
                                     </div>
