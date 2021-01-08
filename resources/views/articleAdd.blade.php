@@ -28,7 +28,9 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <input type="text" class="form-control" id="title" placeholder="Enter Title Here">
+                                    <form id="formData" method="post" enctype="multipart/form-data">
+                                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title Here">
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -38,7 +40,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <textarea id="content" name="content" class="ckeditor"></textarea>
-                                    <input type="text" id="content-out" name="contentOut" />
+                                    <input type="hidden" id="content-out" name="contentOut" />
                                 </div>
                             </div>
                         </div>
@@ -52,18 +54,19 @@
                                     </h3>
                                 </div>
                                 <div class="card-body">
+                                    <label>Please use image with size 600×400 pixel</label>
                                     <div class="input-group">
-                                        <input type="file" class="jfilestyle" data-size="100%" data-input="true">
+                                        <input type="file" id="gallery-1-file" name="gallery1File" class="jfilestyle" data-size="100%" data-input="true">
                                         &nbsp;&nbsp;
-                                        <input type="file" class="jfilestyle" data-size="100%" data-input="true">
+                                        <input type="file" id="gallery-2-file" name="gallery2File" class="jfilestyle" data-size="100%" data-input="true">
                                     </div>
                                     <div class="input-group">
-                                        <input type="file" class="jfilestyle" data-size="100%" data-input="true">
+                                        <input type="file" id="gallery-3-file" name="gallery3File" class="jfilestyle" data-size="100%" data-input="true">
                                         &nbsp;&nbsp;
-                                        <input type="file" class="jfilestyle" data-size="100%" data-input="true">
+                                        <input type="file" id="gallery-4-file" name="gallery4File" class="jfilestyle" data-size="100%" data-input="true">
                                     </div>
                                     <div class="input-group">
-                                        <input type="file" class="jfilestyle" data-size="100%" data-input="true">
+                                        <input type="file" id="gallery-5-file" name="gallery5File" class="jfilestyle" data-size="100%" data-input="true">
                                     </div>
                                 </div>
                             </div>
@@ -134,6 +137,9 @@
                                                     Banner Image
                                                     <input type="file" id="banner-file" name="bannerFile" accept="image/jpeg, image/png" />
                                                 </label>
+                                                <label style="font-size: 12px;">
+                                                    *Please use image with size 1280x720 pixel
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
@@ -149,6 +155,9 @@
                                                 <label class="file-upload btn btn-primary btn-sm btn-block" style="color: black; background-color: #FFC108; border-color: #FFC108;">
                                                     Thumbnail Image
                                                     <input type="file" id="thumb-file" name="thumbFile" accept="image/jpeg, image/png" />
+                                                </label>
+                                                <label style="font-size: 12px;">
+                                                    *Please use image with size 440x550 pixel
                                                 </label>
                                             </div>
                                         </div>
@@ -217,20 +226,37 @@
         });
 
         function save() {
-            console.log($('#thumb-file').get(0).files.length);
-            /*if(
+            /*console.log($('#thumb-file').get(0).files.length);
+            console.log($('#title').val());
+            console.log($('#content-out').val());
+            console.log($('#gallery-1-file').get(0).files.length);
+            console.log($('#gallery-2-file').get(0).files.length);
+            console.log($('#gallery-3-file').get(0).files.length);
+            console.log($('#gallery-4-file').get(0).files.length);
+            console.log($('#gallery-5-file').get(0).files.length);*/
+            if(
                 $('#thumb-file').get(0).files.length <= 0 ||
                 $('#banner-file').get(0).files.length <= 0 ||
-                $('#video-title').val() == '' ||
-                $('#youtube-embed').val() == ''
+                $('#gallery-1-file').get(0).files.length <= 0 ||
+                $('#gallery-2-file').get(0).files.length <= 0 ||
+                $('#gallery-3-file').get(0).files.length <= 0 ||
+                $('#gallery-4-file').get(0).files.length <= 0 ||
+                $('#gallery-5-file').get(0).files.length <= 0 ||
+                $('#title').val() == '' ||
+                $('#content-out').val() == ''
             ) {
-                $('#form-alert').show();
+                $.alert({
+                    title: 'Something wrong !',
+                    content: 'Please complete article\' contents'
+                });
             } else {
-                $('#form-alert').hide();
-                $('#save-button').show();
+                /*$.alert({
+                    title: 'Something wrong !',
+                    content: 'YES COMPLETE'
+                });*/
                 $.confirm({
                     title: 'Are you sure ?',
-                    content: 'Video will be uploaded to website',
+                    content: 'Article will be uploaded to website',
                     buttons: {
                         confirm: function () {
                             $('body').loadingModal({
@@ -241,13 +267,18 @@
                                 backgroundColor: 'rgb(0,0,0)',
                                 animation: 'wanderingCubes'
                             });
-                            $('#form-alert').hide();
-                            console.log($('#video-thumb-file').prop('files')[0]);
                             var formData = new FormData($('form')[0]);
-                            formData.append('videoThumb', $('#video-thumb-file').prop('files')[0]);
+                            formData.append('contentOut', $('#content-out').val());
+                            formData.append('thumbFile', $('#thumb-file').prop('files')[0]);
+                            formData.append('bannerFile', $('#banner-file').prop('files')[0]);
+                            formData.append('gallery1File', $('#gallery-1-file').prop('files')[0]);
+                            formData.append('gallery2File', $('#gallery-2-file').prop('files')[0]);
+                            formData.append('gallery3File', $('#gallery-3-file').prop('files')[0]);
+                            formData.append('gallery4File', $('#gallery-4-file').prop('files')[0]);
+                            formData.append('gallery5File', $('#gallery-5-file').prop('files')[0]);
                             $.ajax({
                                 type: "POST",
-                                url: "{{url('api/video-save')}}",
+                                url: "{{url('api/save-article')}}",
                                 contentType: false,
                                 cache: false,
                                 processData:false,
@@ -287,7 +318,7 @@
                         cancel: function () {},
                     }
                 });
-            }*/
+            }
         }
 
     </script>

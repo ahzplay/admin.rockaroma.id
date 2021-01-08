@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BandController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ShopController;
@@ -43,3 +44,6 @@ Route::post('/get-product', [ShopController::class, 'get']);
 Route::post('/save-product', [ShopController::class, 'save']);
 Route::post('/update-product', [ShopController::class, 'update']);
 Route::post('/destroy-product', [ShopController::class, 'destroy']);
+Route::post('/save-article', [ArticleController::class, 'save']);
+Route::get('/article-fetch', [ArticleController::class, 'fetch']);
+Route::post('/article-destroy', [ArticleController::class, 'destroy']);

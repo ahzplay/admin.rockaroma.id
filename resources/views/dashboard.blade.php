@@ -31,6 +31,7 @@
                                     <tr>
                                         <th> # </th>
                                         <th> Title </th>
+                                        <th> Link </th>
                                         <th> Image </th>
                                         <th> Status </th>
                                         <th> Action  </th>
@@ -41,6 +42,7 @@
                                         <tr>
                                             <td>{{$key+1}}</td>
                                             <td>{{$val->title}}</td>
+                                            <td> - </td>
                                             <td><a href="#" onclick="showImage('{{$val->secure_url}}')">Show Image</a></td>
                                             {{--<td>{{$val->is_active=1?'Active':'Not Active'}}</td>--}}
                                             <td>
