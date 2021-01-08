@@ -79,6 +79,7 @@
     <script src="https://www.jqueryscript.net/demo/Fullscreen-Loading-Modal-Indicator-Plugin-For-jQuery-loadingModal/js/jquery.loadingModal.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+
             table = $('#article-table').DataTable({
                 pageLength: 10,
                 processing: true,
@@ -94,8 +95,8 @@
                     {"data":"createdAt"},
                     {
                         "render": function (data, type, row) {
-                            //return "<a href='#' onclick='destroy("+row.id+")'>Delete</a>";
-                            return "";
+                            return "<a href='#' onclick='edit("+row.id+")'>Edit</a> <span style='padding-right: 15px;'></span> <a href='#' onclick='destroy("+row.id+")'>Delete</a>";
+                            //return "";
                         },
                     }
                 ],
@@ -136,6 +137,10 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        function edit(id) {
+            window.location = "{{url('article-edit-page/')}}/" + id;
+        }
 
         function destroy(id) {
             $.confirm({

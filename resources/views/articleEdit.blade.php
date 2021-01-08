@@ -29,7 +29,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <form id="formData" method="post" enctype="multipart/form-data">
-                                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title Here">
+                                        <input type="text" class="form-control" id="title" name="title" value="{{$content->title}}" placeholder="Enter Title Here">
                                     </form>
                                 </div>
                             </div>
@@ -39,14 +39,14 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <textarea id="content" name="content" class="ckeditor"></textarea>
-                                    <input type="hidden" id="content-out" name="contentOut" />
+                                    <textarea id="content" name="content" class="ckeditor">{{$content->content}}</textarea>
+                                    <input type="hidden" id="content-out" name="contentOut" value="{{$content->content}}" />
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" >
                             <div class="card">
                                 <div class="card-header" style="background-color: lightgrey;cursor: move;">
                                     <h3 class="card-title" >
@@ -54,19 +54,34 @@
                                     </h3>
                                 </div>
                                 <div class="card-body">
-                                    <label>Please use image with size 600×400 pixel</label>
-                                    <div class="input-group">
-                                        <input type="file" id="gallery-1-file" name="gallery1File" class="jfilestyle" data-size="100%" data-input="true">
-                                        &nbsp;&nbsp;
-                                        <input type="file" id="gallery-2-file" name="gallery2File" class="jfilestyle" data-size="100%" data-input="true">
+                                    <div class="row" style="padding-top: 10px; padding-bottom: 10px">
+                                        <div class="col-md-12">
+                                            <div class="col-xs-1">
+                                                <img src="{{$content->gallery_1_path}}" style="padding: 5px;" height="90" width="130">
+                                                <img src="{{$content->gallery_2_path}}" style="padding: 5px;" height="90" width="130">
+                                                <img src="{{$content->gallery_3_path}}" style="padding: 5px;" height="90" width="130">
+                                                <img src="{{$content->gallery_4_path}}" style="padding: 5px;" height="90" width="130">
+                                                <img src="{{$content->gallery_5_path}}" style="padding: 5px;" height="90" width="130">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="input-group">
-                                        <input type="file" id="gallery-3-file" name="gallery3File" class="jfilestyle" data-size="100%" data-input="true">
-                                        &nbsp;&nbsp;
-                                        <input type="file" id="gallery-4-file" name="gallery4File" class="jfilestyle" data-size="100%" data-input="true">
-                                    </div>
-                                    <div class="input-group">
-                                        <input type="file" id="gallery-5-file" name="gallery5File" class="jfilestyle" data-size="100%" data-input="true">
+                                    <button id="gallery-btn" class="btn btn-warning" onclick="showGalleryDiv()">Update Image Gallery</button>
+                                    <div id="gallery-div" style="display: none;" >
+                                        <label>Please use image with size 600×400 pixel</label>
+                                        <div class="input-group">
+                                            <input type="file" id="gallery-1-file" name="gallery1File" class="jfilestyle" data-size="100%" data-input="true">
+                                            &nbsp;&nbsp;
+                                            <input type="file" id="gallery-2-file" name="gallery2File" class="jfilestyle" data-size="100%" data-input="true">
+                                        </div>
+                                        <div class="input-group">
+                                            <input type="file" id="gallery-3-file" name="gallery3File" class="jfilestyle" data-size="100%" data-input="true">
+                                            &nbsp;&nbsp;
+                                            <input type="file" id="gallery-4-file" name="gallery4File" class="jfilestyle" data-size="100%" data-input="true">
+                                        </div>
+                                        <div class="input-group">
+                                            <input type="file" id="gallery-5-file" name="gallery5File" class="jfilestyle" data-size="100%" data-input="true">
+                                        </div>
+                                        *Ignore if you don't want to change images gallery
                                     </div>
                                 </div>
                             </div>
@@ -90,19 +105,9 @@
                                 </div>
                                 <div class="card-body" style="display: block;">
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-default btn-block btn-sm" style="color: red;">
-                                                Discard
-                                            </button>
-                                        </div>
-                                        {{--<div class="col-md-4">
-                                            <button type="button" class="btn btn-primary btn-block btn-sm">
-                                                Preview
-                                            </button>
-                                        </div>--}}
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-warning btn-block btn-sm" onclick="save()">
-                                                <i class="fa fa-cloud-upload"></i> Publish
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-warning btn-block btn-sm" onclick="update()">
+                                                <i class="fa fa-cloud-upload"></i> Update
                                             </button>
                                         </div>
                                     </div>
@@ -129,7 +134,7 @@
                                         <div class="col-md-12">
                                             <center>Banner Image</center>
                                             <div style="border-width: 1px; border-color: #F4F6F9; background-color: #F4F6F9; width: 100%; height: 160px;">
-                                                <img id="banner-img" src="" width="100%" style="max-height: 160px; min-height: 160px;">
+                                                <img id="banner-img" src="{{$content->image_path}}" width="100%" style="max-height: 160px; min-height: 160px;">
                                             </div>
                                             <div style="padding-top: 10px;">
                                                 <label class="file-upload btn btn-primary btn-sm btn-block" style="color: black; background-color: #FFC108; border-color: #FFC108;">
@@ -148,7 +153,7 @@
                                         <div class="col-md-12">
                                             <center>Thumbnail Image</center>
                                             <div style="border-width: 1px; border-color: #F4F6F9; background-color: #F4F6F9; width: 100%; height: 330px;">
-                                                <img id="thumb-img" src="" width="100%" style="max-height: 330px; min-height: 330px;">
+                                                <img id="thumb-img" src="{{$content->thumb_path}}" width="100%" style="max-height: 330px; min-height: 330px;">
                                             </div>
                                             <div style="padding-top: 10px;">
                                                 <label class="file-upload btn btn-primary btn-sm btn-block" style="color: black; background-color: #FFC108; border-color: #FFC108;">
@@ -224,100 +229,77 @@
             }
         });
 
-        function save() {
-            /*console.log($('#thumb-file').get(0).files.length);
-            console.log($('#title').val());
-            console.log($('#content-out').val());
-            console.log($('#gallery-1-file').get(0).files.length);
-            console.log($('#gallery-2-file').get(0).files.length);
-            console.log($('#gallery-3-file').get(0).files.length);
-            console.log($('#gallery-4-file').get(0).files.length);
-            console.log($('#gallery-5-file').get(0).files.length);*/
-            if(
-                $('#thumb-file').get(0).files.length <= 0 ||
-                $('#banner-file').get(0).files.length <= 0 ||
-                $('#gallery-1-file').get(0).files.length <= 0 ||
-                $('#gallery-2-file').get(0).files.length <= 0 ||
-                $('#gallery-3-file').get(0).files.length <= 0 ||
-                $('#gallery-4-file').get(0).files.length <= 0 ||
-                $('#gallery-5-file').get(0).files.length <= 0 ||
-                $('#title').val() == '' ||
-                $('#content-out').val() == ''
-            ) {
-                $.alert({
-                    title: 'Something wrong !',
-                    content: 'Please complete article\' contents'
-                });
-            } else {
-                /*$.alert({
-                    title: 'Something wrong !',
-                    content: 'YES COMPLETE'
-                });*/
-                $.confirm({
-                    title: 'Are you sure ?',
-                    content: 'Article will be uploaded to website',
-                    buttons: {
-                        confirm: function () {
-                            $('body').loadingModal({
-                                position: 'auto',
-                                text: 'Please Wait...',
-                                color: '#FFC108',
-                                opacity: '0.7',
-                                backgroundColor: 'rgb(0,0,0)',
-                                animation: 'wanderingCubes'
-                            });
-                            var formData = new FormData($('form')[0]);
-                            formData.append('contentOut', $('#content-out').val());
-                            formData.append('thumbFile', $('#thumb-file').prop('files')[0]);
-                            formData.append('bannerFile', $('#banner-file').prop('files')[0]);
-                            formData.append('gallery1File', $('#gallery-1-file').prop('files')[0]);
-                            formData.append('gallery2File', $('#gallery-2-file').prop('files')[0]);
-                            formData.append('gallery3File', $('#gallery-3-file').prop('files')[0]);
-                            formData.append('gallery4File', $('#gallery-4-file').prop('files')[0]);
-                            formData.append('gallery5File', $('#gallery-5-file').prop('files')[0]);
-                            $.ajax({
-                                type: "POST",
-                                url: "{{url('api/save-article')}}",
-                                contentType: false,
-                                cache: false,
-                                processData:false,
-                                timeout: 300000,
-                                data: formData,
-                                success: function(response){
-                                    $('body').loadingModal('destroy') ;
-                                    if(response.status == 'success') {
-                                        $('#formData').trigger("reset");
-                                        $('#profile-img').attr('src', '');
-                                        $.confirm({
-                                            title: 'Succeded !!',
-                                            content: response.message,
-                                            buttons: {
-                                                confirm: function() {
-                                                    location.reload();
-                                                }
+        function showGalleryDiv() {
+            $('#gallery-btn').hide();
+            $('#gallery-div').show();
+        }
+        function update() {
+            $.confirm({
+                title: 'Are you sure ?',
+                content: 'Article will be updated to website',
+                buttons: {
+                    confirm: function () {
+                        $('body').loadingModal({
+                            position: 'auto',
+                            text: 'Please Wait...',
+                            color: '#FFC108',
+                            opacity: '0.7',
+                            backgroundColor: 'rgb(0,0,0)',
+                            animation: 'wanderingCubes'
+                        });
+                        var formData = new FormData($('form')[0]);
+                        formData.append('articleId', {{$content->id}});
+                        formData.append('contentOut', $('#content-out').val());
+                        formData.append('thumbFile', $('#thumb-file').prop('files')[0]);
+                        formData.append('bannerFile', $('#banner-file').prop('files')[0]);
+                        formData.append('gallery1File', $('#gallery-1-file').prop('files')[0]);
+                        formData.append('gallery2File', $('#gallery-2-file').prop('files')[0]);
+                        formData.append('gallery3File', $('#gallery-3-file').prop('files')[0]);
+                        formData.append('gallery4File', $('#gallery-4-file').prop('files')[0]);
+                        formData.append('gallery5File', $('#gallery-5-file').prop('files')[0]);
+                        $.ajax({
+                            type: "POST",
+                            url: "{{url('api/article-update')}}",
+                            contentType: false,
+                            cache: false,
+                            processData:false,
+                            timeout: 300000,
+                            data: formData,
+                            success: function(response){
+                                $('body').loadingModal('destroy') ;
+                                if(response.status == 'success') {
+                                    $('#formData').trigger("reset");
+                                    $('#profile-img').attr('src', '');
+                                    $.confirm({
+                                        title: 'Succeded !!',
+                                        content: response.message,
+                                        buttons: {
+                                            confirm: function() {
+                                                //location.href = '{{url('article-page')}}';
+                                                location.reload();
                                             }
-                                        });
-                                    } else {
-                                        $('body').loadingModal('destroy') ;
-                                        $.alert({
-                                            title: "Something wrong !",
-                                            content: response.message
-                                        })
-                                    }
-                                },
-                                error: function(){
-                                    $('body').loadingModal('destroy');
-                                    $.alert({
-                                        title: 'Something wrong !',
-                                        content: 'Uploaded failed, please make sure your internet connection is stable'
+                                        }
                                     });
-                                },
-                            });
-                        },
-                        cancel: function () {},
-                    }
-                });
-            }
+                                } else {
+                                    $('body').loadingModal('destroy') ;
+                                    $.alert({
+                                        title: "Something wrong !",
+                                        content: response.message
+                                    })
+                                }
+                            },
+                            error: function(){
+                                $('body').loadingModal('destroy');
+                                $.alert({
+                                    title: 'Something wrong !',
+                                    content: 'Uploaded failed, please make sure your internet connection is stable'
+                                });
+                            },
+                        });
+                    },
+                    cancel: function () {},
+                }
+            });
         }
 
     </script>

@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth.page'], function(){
     Route::get('/shop-page', [ShopController::class, 'index']);
     Route::get('/article-page', [ArticleController::class, 'index']);
     Route::get('/article-add-page', [ArticleController::class, 'articleAdd']);
+    Route::get('/article-edit-page/{articleId}', [ArticleController::class, 'articleEdit']);
 });
 
 Route::get('/', [AuthController::class, 'login'])->middleware(['check.login.page']);

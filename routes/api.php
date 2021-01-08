@@ -46,4 +46,5 @@ Route::post('/update-product', [ShopController::class, 'update']);
 Route::post('/destroy-product', [ShopController::class, 'destroy']);
 Route::post('/save-article', [ArticleController::class, 'save']);
 Route::get('/article-fetch', [ArticleController::class, 'fetch']);
+Route::post('/article-update', [ArticleController::class, 'update']);
 Route::post('/article-destroy', [ArticleController::class, 'destroy']);
