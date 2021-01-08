@@ -148,8 +148,8 @@
 
                                         <div class="col-md-12">
                                             <center>Thumbnail Image</center>
-                                            <div style="border-width: 1px; border-color: #F4F6F9; background-color: #F4F6F9; width: 100%; height: 180px;">
-                                                <img id="thumb-img" src="" width="100%" style="max-height: 180px; min-height: 180px;">
+                                            <div style="border-width: 1px; border-color: #F4F6F9; background-color: #F4F6F9; width: 100%; height: 320px;">
+                                                <img id="thumb-img" src="" width="100%" style="max-height: 320px; min-height: 320px;">
                                             </div>
                                             <div style="padding-top: 10px;">
                                                 <label class="file-upload btn btn-primary btn-sm btn-block" style="color: black; background-color: #FFC108; border-color: #FFC108;">
