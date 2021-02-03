@@ -62,7 +62,7 @@
             font-size: 16px;
         }
 
-        .loginBox input[type="submit"] {
+        .loginBox input[type="button"] {
             border: none;
             outline: none;
             height: 40px;
@@ -74,7 +74,7 @@
             margin: 12px 0 18px;
         }
 
-        .loginBox input[type="submit"]:hover {
+        .loginBox input[type="button"]:hover {
             background-color: #ff9720;
             color: #fff;
         }
@@ -86,17 +86,20 @@
             text-decoration: none;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 </head>
 <body>
 <div class="loginBox">
     <img class="logo" src="{{asset('img/logo-rockaroma.png')}}">
-    <form method="POST" action="{{url('api/login-auth')}}">
+    <form method="POST" id="login-form" action="">
         {{csrf_field()}}
         <label style="color: white;">Username</label>
-        <input type="email" name="username" required>
+        <input type="email" name="email" required>
         <label style="color: white;">Password</label>
         <input type="password" name="password" {{--pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"--}} required>
-        <input type="submit" name="sign-in" value="Sign In">
+        <input type="button" onclick="doLogin()" name="sign-in" value="Sign In">
     </form>
     <center>
         <label style="color: white; font-size: 10px;">
@@ -113,7 +116,30 @@
 </div>
 
 <script>
+    function doLogin() {
+        $.ajax({
+            type: "POST",
+            url: "{{url('api/login-action')}}",
+            data: $('#login-form').serialize(),
+            processData:false,
+            timeout: 60000,
+            beforeSend: function(){
+                //$('#upload-demo-submit-btn').attr("disabled","disabled");
+            },
+            success: function(response){
+                //$('#loading-div').hide();
+                if(response.status == 'success') {
+                    window.location.replace("{{url('/dashboard-page')}}");
+                } else {
+                    alert(response.message);
+                }
 
+            },
+            error: function(){
+                alert('Something wrong !');
+            },
+        });
+    }
 </script>
 
 </body>

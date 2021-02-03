@@ -53,6 +53,14 @@
                 </p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{url('member-page')}}" class="nav-link {{Session::get('menu-active-member')}}">
+                <i class="nav-icon fas fa-group"></i>
+                <p>
+                    Member
+                </p>
+            </a>
+        </li>
         {{--<li class="nav-item">
             <a href="pages/widgets.html" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>

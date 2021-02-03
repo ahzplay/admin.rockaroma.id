@@ -7,6 +7,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BandController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\VideoController;
 
 /*
@@ -25,6 +26,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/login-auth', [AuthController::class, 'loginAuth']);
+Route::post('/login-action', [AuthController::class, 'doLogin']);
 Route::get('/logout-auth', [AuthController::class, 'logoutAuth']);
 
 Route::post('/video-get', [VideoController::class, 'getVideo']);
@@ -48,3 +50,4 @@ Route::post('/save-article', [ArticleController::class, 'save']);
 Route::get('/article-fetch', [ArticleController::class, 'fetch']);
 Route::post('/article-update', [ArticleController::class, 'update']);
 Route::post('/article-destroy', [ArticleController::class, 'destroy']);
+Route::get('/fetch-members', [MemberController::class, 'show']);
