@@ -221,7 +221,9 @@ class ShopController extends Controller
             return $q->where('id', $keyword);
         })->with('product')->count();
 
-        if($related > 0)
+        //echo json_encode(array($keyword, $related)); die();
+
+        if($related == 0)
         return response()->json(array(
             'status' => 'fail',
             'message' => 'Cannot remove category, There are product shop\'s item that have a relationship with this category'
