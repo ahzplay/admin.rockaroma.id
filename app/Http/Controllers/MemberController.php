@@ -7,7 +7,13 @@ use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
+        $request->session()->put('menu-active-dashboard', '');
+        $request->session()->put('menu-active-article', '');
+        $request->session()->put('menu-active-video', '');
+        $request->session()->put('menu-active-shop', '');
+        $request->session()->put('menu-active-band', '');
+        $request->session()->put('menu-active-member', 'active');
         return View('member');
     }
 

@@ -14,6 +14,7 @@ class DashboardController extends Controller
         $request->session()->put('menu-active-video', '');
         $request->session()->put('menu-active-shop', '');
         $request->session()->put('menu-active-band', '');
+        $request->session()->put('menu-active-member', '');
 
         $data = array (
             'raw' => $this->fetchSliders(),
