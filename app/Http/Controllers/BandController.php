@@ -13,6 +13,7 @@ class BandController extends Controller
         $request->session()->put('menu-active-video', '');
         $request->session()->put('menu-active-shop', '');
         $request->session()->put('menu-active-band', 'active');
+        $request->session()->put('menu-active-member', '');
 
         $data = array (
             'raw' => $this->fetchBands(),

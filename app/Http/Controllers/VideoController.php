@@ -14,6 +14,7 @@ class VideoController extends Controller
         $request->session()->put('menu-active-video', 'active');
         $request->session()->put('menu-active-shop', '');
         $request->session()->put('menu-active-band', '');
+        $request->session()->put('menu-active-member', '');
 
         $videos = $this->fetchVideos($request->page, $request->startDate, $request->endDate);
         $data = array(

@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ url('css/toggle.min.css') }}">
     <link rel="stylesheet" href="{{ url('css/jquery-filestyle.css') }}">
+    <link rel="stylesheet" href="{{ url('css/overlay-loader.css') }}">
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.1/css/select.bootstrap4.min.css">

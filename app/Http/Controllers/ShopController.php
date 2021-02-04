@@ -17,6 +17,7 @@ class ShopController extends Controller
         $request->session()->put('menu-active-video', '');
         $request->session()->put('menu-active-shop', 'active');
         $request->session()->put('menu-active-band', '');
+        $request->session()->put('menu-active-member', '');
 
         $categories = $this->fetchCategoriesForDropdown();
         $data = array(
