@@ -35,7 +35,7 @@ class MemberController extends Controller
                 $q->where('full_name', 'like', '%' .  $keyword . '%');
                 $q->orWhere('phone_number', 'like', '%' .  $keyword . '%');
             })
-            ->get();
+            ->skip($_GET['start'])->take($_GET['length'])->get();
 
         $data = array();
         foreach ($raw as $val) {
