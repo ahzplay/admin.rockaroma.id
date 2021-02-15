@@ -539,8 +539,8 @@
                 $('#product-name').val() == '' ||
                 $('#price').val() == '' ||
                 $('#category option:selected').attr('id') == '' ||
-                $('#tokopedia-link').val() == '' ||
-                $('#shopee-link').val() == '' ||
+                //$('#tokopedia-link').val() == '' ||
+                //$('#shopee-link').val() == '' ||
                 $('#status').val() == ''
             ) {
                 $('#form-alert').show();

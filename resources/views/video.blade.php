@@ -34,6 +34,8 @@
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="basic-addon2"><i class="fa fa-calendar"></i></span>
                                     </div>
+				    &nbsp;&nbsp;
+				    <a class="btn btn-warning" href="{{url('video-page/').'/0/0/0'}}"><i class="fa fa-sync"></i></a>
                                 </div>
                             </div>
                             <div class="float-right d-none d-sm-inline">
@@ -53,6 +55,7 @@
                                     <thead>
                                     <tr>
                                         <th> # </th>
+                                        <th> ID </th>
                                         <th> Video Title </th>
                                         <th> Date </th>
                                         <th> Action  </th>
@@ -62,6 +65,7 @@
                                     @foreach($raw as $key=>$val)
                                         <tr>
                                             <td>{{$key+1}}</td>
+					    <td>{{$val->id}}</td>
                                             <td>{{$val->title}}</td>
                                             <td>{{$val->created_at->toDateString()}}</td>
                                             <td><a href="#" id="edit-href" onclick="edit('{{$val->id}}')" style="color: blue;" data-toggle="modal" data-target=".bd-example-modal-lg">Edit</a> <span style="padding-right: 15px;"></span> <a href="#" onclick="destroy('{{$val->id}}','{{$val->public_id}}')" style="color: red;">Delete</a></td>

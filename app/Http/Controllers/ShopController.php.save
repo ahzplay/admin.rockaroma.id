@@ -143,6 +143,8 @@ class ShopController extends Controller
         $doUpdate = $product->save();
 
         if($doUpdate) {
+	    $categories = array($request->categoryId)
+
             return response()->json(array(
                 'status' => 'success',
                 'message' => 'Product Updated'

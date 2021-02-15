@@ -27,16 +27,16 @@ class VideoController extends Controller
     }
 
     public function fetchVideos($page, $startDate, $endDate){
-        $page = intval($page);
-        $rows = 10;//isset($param['rows']) ? intval($param['rows']) : 9;
-        $offset = ($page-1)*10;
-        $total = Video::where('is_active',1)->count();
+        $page = $page;
+        $rows = 10;
+        $offset = ($page-1)*$rows;
+        $total = Video::whereBetween('date', [$startDate!=0?$startDate:'1970-12-12', $endDate!=0?$endDate:date('Y-m-d')])->count();
         $row = Video::
             whereBetween('date', [$startDate!=0?$startDate:'1970-12-12', $endDate!=0?$endDate:date('Y-m-d')])
             ->skip($offset)->take($rows)->count();
         $raw = Video::
             whereBetween('date', [$startDate!=0?$startDate:'1970-12-12', $endDate!=0?$endDate:date('Y-m-d')])
-            ->skip($offset)->take($rows)->get();
+            ->skip($offset)->take($rows)->orderBy('id', 'desc')->get();
         $page = ceil($total/$rows);
         return array(
             'row' => $row,
