@@ -39,7 +39,7 @@
                                 </div>--}}
                             </div>
                             <div class="float-right d-none d-sm-inline">
-                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target=".bd-category-modal-lg"><i class="fa fa-plus-square"></i> Category</button>
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target=".bd-category-modal-lg"><i class="fa fa-th"></i> Category</button>
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target=".bd-example-modal-lg" id="product-modal"><i class="fa fa-plus-square"></i> New Product</button>
                             </div>
                         </div>
@@ -58,7 +58,6 @@
                                         <th>Product</th>
                                         <th>Status</th>
                                         <th>Action</th>
-
                                     </tr>
                                     </thead>
                                 </table>
@@ -178,7 +177,7 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Category</label>
                                     <select class="form-control" id="category" name="category">
-                                        <option>-- Select Below --</option>
+                                        {{--<option>-- Select Below --</option>--}}
                                         @foreach($categories as $val)
                                             <option id="{{$val->id}}"> {{$val->name}} </option>
                                         @endforeach
@@ -276,7 +275,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    "url"  : "{{url('api/categories-fetch')}}",
+                    "url"  : "{{url('api/product-categories-fetch')}}",
                     "data" : {
                         "responseWish" : 'datatables',
                     }
@@ -352,6 +351,11 @@
                 $('#videoId').remove();
                 $('#youtube-modal-content').hide();
                 $('#form-modal-content').show();
+            });
+
+            $("#category-modal").on('hidden.bs.modal', function (e) {
+                location.reload();
+                //console.log('hidden');
             });
 
             $('.enddate').change(function(){
@@ -664,10 +668,6 @@
             });
         }
 
-        function showCategory(id) {
-            $('#category-modal').modal('show');
-        }
-
         function edit(id) {
             console.log(id);
             $('<input>').attr({
@@ -718,68 +718,79 @@
         }
 
         function update() {
-            $('#form-alert').hide();
-            $.confirm({
-                title: 'Are you sure ?',
-                content: 'Video will be uploaded to website',
-                buttons: {
-                    confirm: function () {
-                        $('body').loadingModal({
-                            position: 'auto',
-                            text: 'Please Wait...',
-                            color: '#FFC108',
-                            opacity: '0.7',
-                            backgroundColor: 'rgb(0,0,0)',
-                            animation: 'wanderingCubes'
-                        });
-                        $('#form-alert').hide();
-                        var formData = new FormData($('form')[0]);
-                        //formData.append('id', id);
-                        formData.append('productImage', $('#product-image').prop('files')[0]);
-                        formData.append('categoryId', $('#category option:selected').attr('id'));
-                        $.ajax({
-                            type: "POST",
-                            url: "{{url('api/update-product')}}",
-                            contentType: false,
-                            cache: false,
-                            processData:false,
-                            timeout: 300000,
-                            data: formData,
-                            success: function(response){
-                                console.log(response);
-                                $('body').loadingModal('destroy') ;
-                                if(response.status == 'success') {
-                                    $('#formData').trigger("reset");
-                                    $('#img-preview').attr('src', '');
-                                    $.confirm({
-                                        title: 'Succeded !!',
-                                        content: response.message,
-                                        buttons: {
-                                            confirm: function() {
-                                                location.reload();
-                                            }
-                                        }
-                                    });
-                                } else {
+            if(
+                $('#product-name').val() == '' ||
+                $('#price').val() == '' ||
+                $('#category option:selected').attr('id') == '' ||
+                //$('#tokopedia-link').val() == '' ||
+                //$('#shopee-link').val() == '' ||
+                $('#status').val() == ''
+            ) {
+                $('#form-alert').show();
+            } else {
+                $('#form-alert').hide();
+                $.confirm({
+                    title: 'Are you sure ?',
+                    content: 'Video will be uploaded to website',
+                    buttons: {
+                        confirm: function () {
+                            $('body').loadingModal({
+                                position: 'auto',
+                                text: 'Please Wait...',
+                                color: '#FFC108',
+                                opacity: '0.7',
+                                backgroundColor: 'rgb(0,0,0)',
+                                animation: 'wanderingCubes'
+                            });
+                            $('#form-alert').hide();
+                            var formData = new FormData($('form')[0]);
+                            //formData.append('id', id);
+                            formData.append('productImage', $('#product-image').prop('files')[0]);
+                            formData.append('categoryId', $('#category option:selected').attr('id'));
+                            $.ajax({
+                                type: "POST",
+                                url: "{{url('api/update-product')}}",
+                                contentType: false,
+                                cache: false,
+                                processData:false,
+                                timeout: 300000,
+                                data: formData,
+                                success: function(response){
+                                    console.log(response);
                                     $('body').loadingModal('destroy') ;
+                                    if(response.status == 'success') {
+                                        $('#formData').trigger("reset");
+                                        $('#img-preview').attr('src', '');
+                                        $.confirm({
+                                            title: 'Succeded !!',
+                                            content: response.message,
+                                            buttons: {
+                                                confirm: function() {
+                                                    location.reload();
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        $('body').loadingModal('destroy') ;
+                                        $.alert({
+                                            title: "Something wrong !",
+                                            content: response.message
+                                        })
+                                    }
+                                },
+                                error: function(){
+                                    $('body').loadingModal('destroy');
                                     $.alert({
-                                        title: "Something wrong !",
-                                        content: response.message
-                                    })
-                                }
-                            },
-                            error: function(){
-                                $('body').loadingModal('destroy');
-                                $.alert({
-                                    title: 'Something wrong !',
-                                    content: 'Uploaded failed, please make sure your internet connection is stable'
-                                });
-                            },
-                        });
-                    },
-                    cancel: function () {},
-                }
-            });
+                                        title: 'Something wrong !',
+                                        content: 'Uploaded failed, please make sure your internet connection is stable'
+                                    });
+                                },
+                            });
+                        },
+                        cancel: function () {},
+                    }
+                });
+            }
         }
     </script>
 @endsection

@@ -3,14 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="b4d364cb-1b37-4a77-933b-99721cca48e1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ArticleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ArticleController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BandController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BandController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/DashboardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/DashboardController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MemberController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MemberController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ShopController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ShopController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/VideoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/VideoController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/base.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/base.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/login.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Category.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Video.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Video.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/articleAdd.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/articleAdd.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/shop.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/shop.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/video.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/video.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,7 +208,11 @@
       <workItem from="1611019933322" duration="1190000" />
       <workItem from="1611095001146" duration="2131000" />
       <workItem from="1611945258328" duration="4988000" />
-      <workItem from="1612337305403" duration="7515000" />
+      <workItem from="1612337305403" duration="8099000" />
+      <workItem from="1612483052961" duration="13000" />
+      <workItem from="1613191281383" duration="517000" />
+      <workItem from="1613431872779" duration="9491000" />
+      <workItem from="1613617782478" duration="3550000" />
     </task>
     <servers />
   </component>
@@ -215,10 +220,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="378" y="150" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1612341639745">
+    <state x="378" y="150" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1613467398039">
       <screen x="0" y="23" width="1280" height="731" />
     </state>
-    <state x="378" y="150" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1280.731@0.23.1280.731" timestamp="1612341639745" />
+    <state x="378" y="150" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1280.731@0.23.1280.731" timestamp="1613467398039" />
     <state x="458" y="319" key="NewPhpFileDialog" timestamp="1609288102480">
       <screen x="0" y="23" width="1280" height="731" />
     </state>
@@ -231,9 +236,9 @@
       <screen x="0" y="23" width="1280" height="731" />
     </state>
     <state x="317" y="221" key="com.intellij.ide.util.TipDialog/0.23.1280.731@0.23.1280.731" timestamp="1607998278545" />
-    <state x="298" y="145" width="683" height="486" key="find.popup" timestamp="1611095408222">
+    <state x="298" y="145" width="683" height="486" key="find.popup" timestamp="1613191292152">
       <screen x="0" y="23" width="1280" height="731" />
     </state>
-    <state x="298" y="145" width="683" height="486" key="find.popup/0.23.1280.731@0.23.1280.731" timestamp="1611095408222" />
+    <state x="298" y="145" width="683" height="486" key="find.popup/0.23.1280.731@0.23.1280.731" timestamp="1613191292152" />
   </component>
 </project>

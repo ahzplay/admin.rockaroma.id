@@ -38,9 +38,12 @@ Route::post('/dashboard-slider-update-status', [DashboardController::class, 'upd
 Route::post('/dashboard-slider-get', [DashboardController::class, 'getSlider']);
 Route::post('/dashboard-slider-update', [DashboardController::class, 'update']);
 Route::post('/band-fetch', [BandController::class, 'fetchBands']);
-Route::get('/categories-fetch', [ShopController::class, 'fetchCategories']);
+Route::get('/product-categories-fetch', [ShopController::class, 'fetchCategories']);
+Route::get('/video-categories-fetch', [VideoController::class, 'fetchCategories']);
 Route::post('/add-shop-category', [ShopController::class, 'addShopCategory']);
+Route::post('/add-video-category', [VideoController::class, 'addVideoCategory']);
 Route::post('/destroy-shop-category', [ShopController::class, 'destroyShopCategory']);
+Route::post('/destroy-video-category', [VideoController::class, 'destroyVideoCategory']);
 Route::get('/fetch-products', [ShopController::class, 'fetch']);
 Route::post('/get-product', [ShopController::class, 'get']);
 Route::post('/save-product', [ShopController::class, 'save']);

@@ -99,7 +99,7 @@ class ShopController extends Controller
         $product->public_id = $response['public_id'];
         $product->secure_url = $response['secure_url'];
         $product->save();
-	$product->category()->attach($request->categoryId);
+	    $product->category()->attach($request->categoryId);
 
         if($product->id > 0) {
             return response()->json(array(
@@ -140,6 +140,7 @@ class ShopController extends Controller
             $product->public_id = $response['public_id'];
             $product->secure_url = $response['secure_url'];
         }
+        $product->category()->sync($request->categoryId);
         $doUpdate = $product->save();
 
         if($doUpdate) {
@@ -160,8 +161,8 @@ class ShopController extends Controller
         $product = Product::find($request->id);
         Cloudder::destroy($product->public_id, $options=array());
         $product->category()->detach();
-	$product->delete();
-	//$destroy = Product::where('id', $request->id)->delete();
+	    $product->delete();
+	    //$destroy = Product::where('id', $request->id)->delete();
 
         if($product) {
             return response()->json(array(
@@ -177,15 +178,20 @@ class ShopController extends Controller
     }
 
     public function fetchCategoriesForDropdown() {
-        $data = Category::get();
+        $data = Category::where('related_table','products')->get();
         return $data;
     }
 
     public function fetchCategories(Request $request) {
+        $keyword = $_GET['search']['value'];
         $recordsTotal = Category::count();
         $recordsFiltered = Category::count();
-        $data = Category::where('name', 'like', '%' .  $_GET['search']['value'] . '%')
-            ->orWhere('id', 'like', '%' .  $_GET['search']['value'] . '%')->get();
+        $data = Category::where('related_table','products')
+            ->where(function($q) use ($keyword) {
+                $q->where('name', 'like', '%' .  $keyword . '%')
+                    ->orWhere('id', 'like', '%' .  $keyword . '%');
+            })->get();
+
 
         $output = array(
             "draw" => $request->draw,
@@ -205,6 +211,7 @@ class ShopController extends Controller
 
     public function addShopCategory(Request $request) {
         $category = new Category();
+        $category->related_table = 'products';
         $category->name = $request->categoryName;
         $category->save();
 
@@ -231,7 +238,7 @@ class ShopController extends Controller
         if($related >= 1)
         return response()->json(array(
             'status' => 'fail',
-            'message' => 'Cannot remove category, There are product shop\'s item that have a relationship with this category'
+            'message' => 'Cannot remove category, There are products that have a relationship with this category'
         ));
 
         $doDestroy = Category::where('id', $request->id)->delete();

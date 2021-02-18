@@ -293,7 +293,8 @@
                                             content: response.message,
                                             buttons: {
                                                 confirm: function() {
-                                                    location.reload();
+                                                    //location.reload();
+                                                    location.href = "{{url('article-page')}}";
                                                 }
                                             }
                                         });

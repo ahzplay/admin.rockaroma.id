@@ -12,4 +12,7 @@ class Category extends Model
     public function product() {
         return $this->hasOne(Product::class);
     }
+    public function video() {
+        return $this->hasOne(Video::class);
+    }
 }

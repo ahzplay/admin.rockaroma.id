@@ -34,11 +34,12 @@
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="basic-addon2"><i class="fa fa-calendar"></i></span>
                                     </div>
-				    &nbsp;&nbsp;
-				    <a class="btn btn-warning" href="{{url('video-page/').'/0/0/0'}}"><i class="fa fa-sync"></i></a>
+				                    &nbsp;&nbsp;
+                                    <a class="btn btn-default" href="{{url('video-page/').'/0/0/0'}}"><i class="fa fa-sync"></i></a>
                                 </div>
                             </div>
                             <div class="float-right d-none d-sm-inline">
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target=".bd-category-modal-lg"><i class="fa fa-th"></i> Category</button>
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-plus-square"></i> New Video</button>
                             </div>
                         </div>
@@ -68,7 +69,7 @@
 					    <td>{{$val->id}}</td>
                                             <td>{{$val->title}}</td>
                                             <td>{{$val->created_at->toDateString()}}</td>
-                                            <td><a href="#" id="edit-href" onclick="edit('{{$val->id}}')" style="color: blue;" data-toggle="modal" data-target=".bd-example-modal-lg">Edit</a> <span style="padding-right: 15px;"></span> <a href="#" onclick="destroy('{{$val->id}}','{{$val->public_id}}')" style="color: red;">Delete</a></td>
+                                            <td><a href="#" id="edit-href" onclick="edit('{{$val->id}}')" style="color: blue;" data-toggle="modal" data-target=".bd-example-modal-lg">Edit</a> <span style="padding-right: 15px;"></span> <a href="#" onclick="destroy('{{$val->id}}')" style="color: red;">Delete</a></td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -133,6 +134,43 @@
         </div>
     </section>
 
+    <div id="category-modal" class="modal fade bd-category-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4>Categories</h4>
+                    <hr>
+                    <button type="button" id="add-category" onclick="addCategory()" class="btn btn-warning"> <i class="fa fa-plus-square"></i> Add New Category </button>
+                    <div class="row" >
+                        <div class="col-md-6">
+                            <form class="form-inline" id="div-category" style="display: none;">
+                                <div class="form-group" style="padding-right: 10px;">
+                                    <input type="text" class="form-control" id="category-name" placeholder="Category Name"> <div style="width: 15px;"></div>
+                                    <button type="button" id="save-category" onclick="saveCategory()" class="btn btn-warning" style="display: none;"> <i class="fa fa-save"></i> Save </button> <div style="width: 5px;"></div>
+                                    <button type="button" id="cancel-category" onclick="cancelCategory()" class="btn btn-danger" style="display: none;"> <i class="fa fa-close"></i> Cancel </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="category-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="add-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div id="youtube-modal-content" class="modal-content" style="display: none; background-color: #212020;">
@@ -177,6 +215,15 @@
                                     <input type="text" class="form-control" name="videoTitle" id="video-title">
                                 </div>
                                 <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Category</label>
+                                    <select class="form-control" id="category" name="category">
+                                        {{--<option>-- Select Below --</option>--}}
+                                        @foreach($categories as $val)
+                                            <option id="{{$val->id}}"> {{$val->name}} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label for="exampleInputEmail1">Video Embed</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
@@ -186,7 +233,7 @@
                                     </div>
                                 </div>
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="videoPublish" value="1" id="publish-checkbox">
+                                    <input type="checkbox" class="form-check-input" name="videoPublish" id="publish-checkbox">
                                     <label class="form-check-label" for="exampleCheck1">Publish Video</label>
                                     | <a href="#" onclick="videoPreview()" style=" color: #670404;"><i class="fa fa-youtube-square"></i> Video Preview</a>
                                 </div>
@@ -284,8 +331,29 @@
     <script src="https://www.jqueryscript.net/demo/Fullscreen-Loading-Modal-Indicator-Plugin-For-jQuery-loadingModal/js/jquery.loadingModal.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            setDateRangePicker(".startdate", ".enddate")
+            table = $('#category-table').DataTable({
+                pageLength: 10,
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    "url"  : "{{url('api/video-categories-fetch')}}",
+                    "data" : {
+                        "responseWish" : 'datatables',
+                    }
+                },
+                columns: [
+                    {"data":"id"},
+                    {"data":"name"},
+                    {
+                        "render": function (data, type, row) {
+                            return "<a href='#' onclick='destroyCategory("+row.id+")'>Delete</a>";
+                        },
+                    }
+                ],
 
+            });
+
+            setDateRangePicker(".startdate", ".enddate")
             $('#edit-href').on('click', '.modal-toggle', function (e){
 
             });
@@ -318,6 +386,11 @@
                     location.href = '{{url('video-page/1')}}/'+$('.startdate').val()+'/'+$('.enddate').val();
                 }
 
+            });
+
+            $("#category-modal").on('hidden.bs.modal', function (e) {
+                location.reload();
+                //console.log('hidden');
             });
         });
 
@@ -380,6 +453,7 @@
             if(
                 $('#video-thumb-file').get(0).files.length <= 0 ||
                 $('#video-title').val() == '' ||
+                $('#category').val() == '' ||
                 $('#youtube-embed').val() == ''
             ) {
                 $('#form-alert').show();
@@ -403,6 +477,10 @@
                             console.log($('#video-thumb-file').prop('files')[0]);
                             var formData = new FormData($('form')[0]);
                             formData.append('videoThumb', $('#video-thumb-file').prop('files')[0]);
+                            formData.append('videoTitle', $('#video-title').val());
+                            formData.append('categoryId', $('#category option:selected').attr('id'));
+                            formData.append('youtubeEmbed', $('#youtube-embed').val());
+                            formData.append('videoPublish', $('#publish-checkbox').is(':checked'));
                             $.ajax({
                                 type: "POST",
                                 url: "{{url('api/video-save')}}",
@@ -448,7 +526,7 @@
             }
         }
 
-        function destroy(id, publicId) {
+        function destroy(id) {
             $.confirm({
                 title: 'Are you sure ?',
                 content: 'Video will be deleted permanently',
@@ -465,7 +543,7 @@
                         $.ajax({
                             type: "POST",
                             url: "{{url('api/video-destroy')}}",
-                            data: 'id='+id+'&publicId='+publicId,
+                            data: 'id='+id,
                             timeout: 300000,
                             success: function(response){
                                 $('body').loadingModal('destroy') ;
@@ -528,10 +606,11 @@
                     $('body').loadingModal('destroy');
                     console.log(response);
                     $('#add-modal').modal('show');
-                    $('#profile-img').attr('src', response[0].secure_url);
-                    $('#video-title').val(response[0].title);
-                    $('#youtube-embed').val(response[0].youtube_embeded);
-                    $('#publish-checkbox').prop('checked', response[0].is_active);
+                    $('#profile-img').attr('src', response.secure_url);
+                    $('#video-title').val(response.title);
+                    $('#youtube-embed').val(response.youtube_embeded);
+                    $('#publish-checkbox').prop('checked', response.is_active);
+                    document.getElementById(response.category[0].id).selected = "true";
                     $('#form-alert').hide();
                 },
                 error: function(){
@@ -563,6 +642,10 @@
                         var formData = new FormData($('form')[0]);
                         //formData.append('id', id);
                         formData.append('videoThumb', $('#video-thumb-file').prop('files')[0]);
+                        formData.append('videoTitle', $('#video-title').val());
+                        formData.append('categoryId', $('#category option:selected').attr('id'));
+                        formData.append('youtubeEmbed', $('#youtube-embed').val());
+                        formData.append('videoPublish', $('#publish-checkbox').is(':checked'));
                         $.ajax({
                             type: "POST",
                             url: "{{url('api/video-update')}}",
@@ -599,6 +682,135 @@
                                 $.alert({
                                     title: 'Something wrong !',
                                     content: 'Uploaded failed, please make sure your internet connection is stable'
+                                });
+                            },
+                        });
+                    },
+                    cancel: function () {},
+                }
+            });
+        }
+
+        function addCategory() {
+            $('#add-category').hide();
+            $('#save-category').show();
+            $('#cancel-category').show();
+            $('#div-category').show();
+        }
+
+        function cancelCategory() {
+            $('#add-category').show();
+            $('#save-category').hide();
+            $('#cancel-category').hide();
+            $('#category-name').val('');
+            $('#div-category').hide();
+        }
+
+        function saveCategory() {
+            if($('#category-name').val() == '') {
+                alert("Category Name cannot be empty !");
+            } else {
+                $.confirm({
+                    title: 'Are you sure ?',
+                    content: 'Shop Category will be added',
+                    buttons: {
+                        confirm: function () {
+                            $('body').loadingModal({
+                                position: 'auto',
+                                text: 'Please Wait...',
+                                color: '#FFC108',
+                                opacity: '0.7',
+                                backgroundColor: 'rgb(0,0,0)',
+                                animation: 'wanderingCubes'
+                            });
+                            $.ajax({
+                                type: "POST",
+                                url: "{{url('api/add-video-category')}}",
+                                timeout: 150000,
+                                data: 'categoryName='+$('#category-name').val(),
+                                success: function(response){
+                                    console.log(response);
+                                    $('body').loadingModal('destroy') ;
+                                    if(response.status == 'success') {
+                                        $.confirm({
+                                            title: 'Succeded !!',
+                                            content: response.message,
+                                            buttons: {
+                                                confirm: function() {
+                                                    table.draw();
+                                                    cancelCategory();
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        $('body').loadingModal('destroy') ;
+                                        $.alert({
+                                            title: "Something wrong !",
+                                            content: response.message
+                                        })
+                                    }
+                                },
+                                error: function(){
+                                    $('body').loadingModal('destroy');
+                                    $.alert({
+                                        title: 'Something wrong !',
+                                        content: 'Save failed, please make sure your internet connection is stable'
+                                    });
+                                },
+                            });
+                        },
+                        cancel: function () {},
+                    }
+                })
+            }
+        }
+
+        function destroyCategory(id) {
+            $.confirm({
+                title: 'Are you sure ?',
+                content: 'Shop Category will be added',
+                buttons: {
+                    confirm: function () {
+                        $('body').loadingModal({
+                            position: 'auto',
+                            text: 'Please Wait...',
+                            color: '#FFC108',
+                            opacity: '0.7',
+                            backgroundColor: 'rgb(0,0,0)',
+                            animation: 'wanderingCubes'
+                        });
+                        $.ajax({
+                            type: "POST",
+                            url: "{{url('api/destroy-video-category')}}",
+                            timeout: 150000,
+                            data: 'id='+id,
+                            success: function(response){
+                                console.log(response);
+                                $('body').loadingModal('destroy') ;
+                                if(response.status == 'success') {
+                                    $.confirm({
+                                        title: 'Succeded !!',
+                                        content: response.message,
+                                        buttons: {
+                                            confirm: function() {
+                                                table.draw();
+                                                cancelCategory();
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    $('body').loadingModal('destroy') ;
+                                    $.alert({
+                                        title: "Something wrong !",
+                                        content: response.message
+                                    })
+                                }
+                            },
+                            error: function(){
+                                $('body').loadingModal('destroy');
+                                $.alert({
+                                    title: 'Something wrong !',
+                                    content: 'Delete failed, please make sure your internet connection is stable'
                                 });
                             },
                         });
